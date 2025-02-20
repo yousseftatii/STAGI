@@ -1,0 +1,167 @@
+{
+    "personal_info": {
+        "NAME": "Youssef Tati",
+        "EMAIL": "yousseftati19@gmail.com",
+        "PHONE": "+216 97 475 590",
+        "LOCATION": "Mannouba, Tunisia",
+        "LINKEDIN": "https://www.linkedin.com/in/yousseftatii/",
+        "LINKEDIN_NAME": "Youssef Tati",
+        "GITHUB": "https://github.com/yousseftatii",
+        "GITHUB_HANDLE": "yousseftatii"
+    },
+    "summary": {
+        "TAILORED_SUMMARY": "I am a dedicated data science enthusiast focused on using data to innovatively solve real-world problems. As a fast learner and creative thinker, I thrive in collaborative environments and actively seek opportunities for growth and impactful contributions."
+    },
+    "competencies": {
+        "HIGHLIGHTED_LANGUAGES": "Python, C++, C, Java, SQL, JavaScript, R",
+        "RELEVANT_DATA_TOOLS": "ETL, Streamlit, Power BI, Pandas, Matplotlib, Seaborn, Selenium, Beautiful Soup",
+        "ML_AI_SKILLS": "Scikit-learn, TensorFlow, Keras, PyTorch, NLP, Computer Vision",
+        "RELEVANT_SOFT_SKILLS": "Time management, Leadership, Communication, Creative problem solving, Adaptability"
+    },
+    "education": {
+        "EDUCATION_ENTRIES": [
+            {
+                "duration": "2023 – 2026",
+                "institution": "National Higher School of Engineers of Tunis (ENSIT)",
+                "degree": "National Engineering Diploma - Applied Mathematics and Modeling Engineering",
+                "highlights": [
+                    "Advanced Mathematics",
+                    "Data Science",
+                    "Machine Learning",
+                    "Statistical Analysis"
+                ]
+            },
+            {
+                "duration": "2021 – 2023",
+                "institution": "ISSAT Mahdia",
+                "degree": "Pre-Engineering Diploma (DEUPC) - Mathematics/Physics",
+                "highlights": [
+                    "Calculus",
+                    "Linear Algebra",
+                    "Physics",
+                    "Python"
+                ]
+            }
+        ]
+    },
+    "experience": {
+        "EXPERIENCE_ENTRIES": [
+            {
+                "location": "Tunis, Tunisia (On-Site)",
+                "duration": "Jun 2024 – Aug 2024",
+                "role": "Data Science Intern",
+                "organization": "Idaraty (Arkam)",
+                "highlights": [
+                    "Automated the parsing of 10,000+ articles from 50+ sources and developed a BI dashboard with interactive visualizations, enhancing data accessibility and decision-making."
+                ],
+                "technologies": "Python, Beautiful Soup, Pandas, Streamlit, ECharts"
+            },
+            {
+                "location": "California, USA (Remote)",
+                "duration": "Mar 2024 – Apr 2024",
+                "role": "VC & Pitch Deck Analysis Extern",
+                "organization": "Energy Innovation Capital",
+                "highlights": [
+                    "Analyzed pitch decks using data analytics, providing insights and recommendations for investment decisions and enhancing financial reporting capabilities."
+                ],
+                "skills_developed": "Data analytics, financial reporting, market research, venture capital strategy"
+            }
+        ]
+    },
+    "projects": {
+        "PROJECT_ENTRIES": [
+            {
+                "date": "Nov 2023",
+                "title": "Fingerprint Recognition and Emotion-driven Feedback System",
+                "highlights": [
+                    "Developed a fingerprint-based cultural hub website and a room visitor tracking system using Flask, HTML, CSS, and JavaScript.",
+                    "Implemented CNN-based facial emotion recognition."
+                ]
+            },
+            {
+                "date": "Apr-May 2024",
+                "title": "Anomalous User Behavior Detection using Machine Learning",
+                "highlights": [
+                    "Applied data science to cybersecurity by detecting anomalous behavior with machine learning.",
+                    "Utilized Python, Seaborn, One-Class SVM, and Isolation Forest for anomaly detection."
+                ]
+            }
+        ]
+    },
+    "certifications": {
+        "CERTIFICATION_ENTRIES": [
+            {
+                "date": "Nov 2024",
+                "title": "Microsoft Certified: Azure AI Fundamentals (AI-900)"
+            },
+            {
+                "date": "Nov 2024",
+                "title": "Microsoft Certified: Data Fundamentals (DP-900)"
+            },
+            {
+                "date": "Nov 2024",
+                "title": "Microsoft Certified: Azure Fundamentals (AZ-900)"
+            },
+            {
+                "date": "Nov 2024",
+                "title": "Microsoft Certified: Power Platform Fundamentals (PL-900)"
+            },
+            {
+                "date": "Nov 2024",
+                "title": "Microsoft Office Specialist: Excel Associate (MO-200)"
+            },
+            {
+                "date": "Oct 2024",
+                "title": "NVIDIA: Efficient Large Language Model (LLM) Customization"
+            }
+        ]
+    },
+    "extracurricular": {
+        "EXTRACURRICULAR_ENTRIES": [
+            {
+                "duration": "Jan 2024 – Present",
+                "role": "President",
+                "organization": "Nerdata ENSIT Club",
+                "description": "Leadership, event coordination, team management, academic-industry collaboration."
+            },
+            {
+                "duration": "Sept 2023 – Present",
+                "role": "Member",
+                "organization": "ENSIT Geeks Club",
+                "description": "Problem-solving, programming, technical collaboration, innovation."
+            },
+            {
+                "duration": "Sept 2023 – Present",
+                "role": "Member",
+                "organization": "Mouvma ENSIT",
+                "description": "Creative design, multimedia production, teamwork, content creation."
+            },
+            {
+                "duration": "Sept 2019 – June 2021",
+                "role": "Communications Vice President",
+                "organization": "Tunivisions Lycée Assad Ibn Fourat",
+                "description": "Strategic communication, event promotion, leadership, time management."
+            }
+        ]
+    },
+
+
+
+
+    "languages": {
+        "LANGUAGES": [
+            {
+                "language": "English",
+                "proficiency": "B2/C1"
+            },
+            {
+                "language": "French",
+                "proficiency": "B2"
+            },
+            {
+                "language": "Arabic",
+                "proficiency": "Native"
+            }
+        ]
+    }
+}

@@ -1,0 +1,88 @@
+/* Main container */
+.stApp {
+    background-color: #1e1a2f;
+    color: #ffffff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+/* Title */
+h1 {
+    color: #bb86fc;
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+/* Subheaders */
+h2 {
+    color: #bb86fc;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-top: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+/* Text area */
+.stTextArea textarea {
+    height: 150px;
+    border-radius: 8px;
+    border: 2px solid #bb86fc;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #2a2342;
+    color: #ffffff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+/* Buttons */
+.stButton button {
+    width: 100%;
+    background-color: #bb86fc;
+    color: #1e1a2f;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s ease;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+.stButton button:hover {
+    background-color: #9a67ea;
+}
+.stDownloadButton button {
+    width: 100%;
+    background-color: #03dac6;
+    color: #1e1a2f;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.3s ease;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+.stDownloadButton button:hover {
+    background-color: #018786;
+}
+/* Cards for results */
+.card {
+    background-color: #2a2342;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+/* Progress bar for chances */
+.stProgress > div > div > div {
+    background-color: #bb86fc;
+}
+/* Footer */
+.footer {
+    text-align: center;
+    color: #bb86fc;
+    margin-top: 30px;
+    font-size: 0.9rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}
+/* General text */
+body, p, div, span, li {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+}

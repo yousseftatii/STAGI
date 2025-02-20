@@ -1,219 +1,146 @@
+# Correct API endpoint (based on DeepSeek's documentation)
+DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"  # Updated endpoint
+DEEPSEEK_API_KEY = "sk-5229cbdfcb984c52b18447b202c464cf"
+
 import streamlit as st
-import transformers
-import torch
-from pylatex import Document, Section, Itemize
 import os
+import json
+from utils.keyword_extraction import extract_keywords
+from utils.cv_generation import generate_tailored_cv
 
 # Set up the Streamlit app
 st.set_page_config(page_title="CV Tailoring App", page_icon="📄", layout="centered")
 
 # Custom CSS for a dark purple theme with Lucida font
-st.markdown(
-    """
-    <style>
-    /* Main container */
-    .stApp {
-        background-color: #1e1a2f;
-        color: #ffffff;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+st.markdown("""
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Lucida+Sans&display=swap');
+    
+    html, body, [class*="css"] {
+        font-family: 'Lucida Sans', sans-serif;
     }
-    /* Title */
-    h1 {
-        color: #bb86fc;
-        text-align: center;
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 20px;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+    
+    .main {
+        background-color: #2A0944;
+        color: #FFFFFF;
     }
-    /* Subheaders */
-    h2 {
-        color: #bb86fc;
-        font-size: 1.8rem;
-        font-weight: bold;
-        margin-top: 20px;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
-    }
-    /* Text area */
+    
     .stTextArea textarea {
-        height: 150px;
-        border-radius: 8px;
-        border: 2px solid #bb86fc;
-        padding: 10px;
-        font-size: 16px;
-        background-color: #2a2342;
-        color: #ffffff;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+        background-color: #3B185F !important;
+        color: #FFFFFF !important;
     }
-    /* Buttons */
+    
     .stButton button {
-        width: 100%;
-        background-color: #bb86fc;
-        color: #1e1a2f;
-        font-size: 16px;
-        padding: 12px;
-        border-radius: 8px;
+        background-color: #A12568 !important;
+        color: white !important;
         border: none;
-        transition: background-color 0.3s ease;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+        padding: 10px 24px;
+        border-radius: 5px;
+        transition: 0.3s;
     }
+    
     .stButton button:hover {
-        background-color: #9a67ea;
+        background-color: #C70A80 !important;
+        transform: scale(1.05);
     }
-    .stDownloadButton button {
-        width: 100%;
-        background-color: #03dac6;
-        color: #1e1a2f;
-        font-size: 16px;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        transition: background-color 0.3s ease;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
-    }
-    .stDownloadButton button:hover {
-        background-color: #018786;
-    }
-    /* Cards for results */
+    
     .card {
-        background-color: #2a2342;
+        background-color: #3B185F !important;
         padding: 20px;
         border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        margin-bottom: 20px;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+        margin: 10px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    /* Progress bar for chances */
-    .stProgress > div > div > div {
-        background-color: #bb86fc;
-    }
-    /* Footer */
+    
     .footer {
         text-align: center;
-        color: #bb86fc;
-        margin-top: 30px;
-        font-size: 0.9rem;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+        color: #A12568;
+        padding: 1rem;
     }
-    /* General text */
-    body, p, div, span, li {
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-# Initialize the Llama-3.3-70B-Instruct model
-model_id = "meta-llama/Llama-3.3-70B-Instruct"
-pipeline = transformers.pipeline(
-    "text-generation",
-    model=model_id,
-    model_kwargs={"torch_dtype": torch.bfloat16},
-    device_map="auto",
-)
-
-# Function to extract keywords and missing skills
-def extract_keywords(job_description):
-    try:
-        messages = [
-            {"role": "system", "content": "You are a helpful assistant that extracts keywords and suggests missing skills for a CV."},
-            {"role": "user", "content": f"Extract keywords from this job description and suggest missing skills for the CV:\n{job_description}"},
-        ]
-        response = pipeline(
-            messages,
-            max_new_tokens=100,
-        )
-        return response[0]["generated_text"][-1]["content"]
-    except Exception as e:
-        st.error(f"An error occurred while extracting keywords: {e}")
-        return None
-
-# Function to calculate chances of acceptance
-def calculate_chances(cv, job_description):
-    try:
-        messages = [
-            {"role": "system", "content": "You are a helpful assistant that evaluates CVs against job descriptions."},
-            {"role": "user", "content": f"Evaluate the CV against the job description and assign a score for skills match, experience, and education:\nCV: {cv}\nJob Description: {job_description}"},
-        ]
-        response = pipeline(
-            messages,
-            max_new_tokens=100,
-        )
-        evaluation = response[0]["generated_text"][-1]["content"]
-        # Example logic to calculate a score (replace with your own logic)
-        skills_match = 80  # Example score
-        experience = 70    # Example score
-        education = 90     # Example score
-        overall_score = (skills_match * 0.5) + (experience * 0.3) + (education * 0.2)
-        return overall_score
-    except Exception as e:
-        st.error(f"An error occurred while calculating chances: {e}")
-        return 0
-
-# Function to generate a LaTeX CV
-def generate_cv(keywords):
-    try:
-        doc = Document()
-        with doc.create(Section('Skills')):
-            with doc.create(Itemize()) as itemize:
-                itemize.add_item("Python")
-                itemize.add_item("Machine Learning")
-                itemize.add_item("Data Analysis")
-                for skill in keywords.split("\n"):
-                    itemize.add_item(skill)
-        doc.generate_pdf('tailored_cv', clean_tex=True)
-    except Exception as e:
-        st.error(f"An error occurred while generating the CV: {e}")
+</style>
+""", unsafe_allow_html=True)
 
 # App Title and Description
 st.title("📄 CV Tailoring App")
-st.write(
-    "Paste a job description, and this app will help you tailor your CV to match the job requirements. "
-    "It will also calculate your chances of getting the job."
+st.markdown("""
+<div style="border-left: 4px solid #A12568; padding-left: 1rem; margin: 2rem 0;">
+    Paste a job description to generate a tailored CV using DeepSeek's AI analysis.
+    <br>Focusing on keyword extraction and CV generation testing.
+</div>
+""", unsafe_allow_html=True)
+
+# API Key Input (with default value)
+api_key = st.text_input(
+    "🔑 DeepSeek API Key", 
+    value=DEEPSEEK_API_KEY,
+    type="password",
+    help="Get your API key from DeepSeek's platform"
 )
 
 # Input Field for Job Description
-st.subheader("🔍 Paste the Job Description")
-job_description = st.text_area("", placeholder="Enter the job description here...", label_visibility="collapsed")
+st.subheader("🔍 Job Description Input")
+job_description = st.text_area(
+    "Paste job description here:", 
+    height=200,
+    placeholder="Paste the job description text here..."
+)
 
 # Tailor CV Button
-if st.button("✨ Tailor CV"):
-    if not job_description:
-        st.error("Please paste a job description before tailoring your CV.")
+if st.button("✨ Generate Tailored CV", use_container_width=True):
+    if not api_key:
+        st.error("❌ Please enter your DeepSeek API key")
+    elif not job_description:
+        st.error("❌ Please paste a job description")
     else:
-        with st.spinner("🚀 Tailoring your CV..."):
-            # Extract keywords and missing skills
-            keywords = extract_keywords(job_description)
-            if keywords:
-                st.success("✅ CV tailored successfully!")
+        with st.spinner("🚀 Analyzing job description and generating CV..."):
+            try:
+                # Step 1: Extract keywords
+                keywords = extract_keywords(job_description)
+                
+                if not keywords:
+                    st.error("❌ Failed to extract keywords")
+                    st.stop()
 
-                # Display extracted keywords and missing skills in a card
-                with st.container():
-                    st.markdown("<div class='card'>", unsafe_allow_html=True)
-                    st.subheader("🔑 Extracted Keywords and Missing Skills")
-                    st.write(keywords)
-                    st.markdown("</div>", unsafe_allow_html=True)
+                # Display extracted keywords
+                with st.expander("🔍 Extracted Keywords", expanded=True):
+                    st.json(keywords)
 
-                # Calculate chances of acceptance
-                chances = calculate_chances("Your CV content here", job_description)
-                with st.container():
-                    st.markdown("<div class='card'>", unsafe_allow_html=True)
-                    st.subheader("🎯 Chances of Acceptance")
-                    st.write(f"Based on your CV and the job description, your chances are: {chances}%")
-                    st.progress(chances / 100)
-                    st.markdown("</div>", unsafe_allow_html=True)
+                # Step 2: Generate CV
+                cv_path = generate_tailored_cv(job_description, api_key)
+                
+                if cv_path and os.path.exists(cv_path):
+                    # Show success message
+                    st.success("✅ CV generated successfully!")
+                    
+                    # Download button
+                    with open(cv_path, "rb") as f:
+                        st.download_button(
+                            label="⬇️ Download Tailored CV (PDF)",
+                            data=f,
+                            file_name="tailored_cv.pdf",
+                            mime="application/pdf",
+                            use_container_width=True
+                        )
+                    
+                    # Show raw LaTeX output
+                    with st.expander("📄 Generated LaTeX Code"):
+                        tex_path = cv_path.replace(".pdf", ".tex")
+                        if os.path.exists(tex_path):
+                            with open(tex_path, "r") as f:
+                                st.code(f.read(), language="latex")
+                        else:
+                            st.warning("LaTeX source file not found")
+                else:
+                    st.error("❌ Failed to generate CV file")
 
-                # Generate a LaTeX CV
-                generate_cv(keywords)
-                st.write("📄 A tailored CV has been generated. Click below to download it.")
-                with open("tailored_cv.pdf", "rb") as file:
-                    st.download_button(
-                        label="⬇️ Download Tailored CV",
-                        data=file,
-                        file_name="tailored_cv.pdf",
-                        mime="application/pdf",
-                    )
+            except Exception as e:
+                st.error(f"❌ Error during CV generation: {str(e)}")
+                st.stop()
 
 # Footer
-st.markdown("<div class='footer'>Built with ❤️ by Youssef Tati </div>", unsafe_allow_html=True)
+st.markdown("---")
+st.markdown("""
+<div class="footer">
+    Built with ❤️ by Youssef Tati | Powered by DeepSeek AI
+</div>
+""", unsafe_allow_html=True)

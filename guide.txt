@@ -1,0 +1,107 @@
+Keyword Extraction Module
+1. Text Processing Layer
+preprocess_text(text: str) -> str:
+Cleans and normalizes raw job description text (removes HTML, special characters, etc.).
+
+resolve_skill_synonyms(skills: List[str]) -> List[str]:
+Normalizes skill names to canonical forms (e.g., "ML" → "Machine Learning").
+
+2. Core Extraction Layer
+extract_technical_skills(text: str) -> List[Tuple[str, float]]:
+Extracts technical skills with confidence scores using rule-based and TF-IDF approaches.
+
+extract_tools_technologies(text: str) -> Dict[str, List[str]]:
+Identifies tools/technologies and categorizes them (e.g., programming languages, ML frameworks).
+
+extract_domains(text: str) -> List[Tuple[str, float]]:
+Detects domain-specific focus areas (e.g., Machine Learning, Data Engineering).
+
+3. Context Analysis Layer
+detect_experience_level(text: str) -> str:
+Identifies required experience level (e.g., "entry", "mid", "senior").
+
+identify_required_qualifications(text: str) -> Dict[str, List[str]]:
+Extracts educational requirements and certifications.
+
+calculate_keyword_relevance(text: str, keywords: List[str]) -> Dict[str, float]:
+Calculates contextual relevance scores for keywords using TF-IDF.
+
+4. Post-Processing Layer
+rank_keywords(keywords: Dict[str, float], domain: str, experience_level: str) -> List[Tuple[str, float]]:
+Prioritizes keywords based on domain relevance and experience level.
+
+identify_missing_skills(extracted_skills: List[str], user_profile: Dict) -> Dict[str, List[str]]:
+Compares extracted skills with user profile to identify gaps.
+
+format_keywords_output(processed_data: Dict) -> str:
+Formats extracted keywords into a user-friendly string for display.
+
+5. Integration Layer
+call_deepseek_api(text: str) -> Dict:
+Integrates with DeepSeek API for enhanced keyword analysis.
+
+Recommended Implementation Order
+Start with preprocess_text and basic entity extraction.
+
+Implement calculate_keyword_relevance using TF-IDF.
+
+Add embedding-based similarity for extract_technical_skills.
+
+Build domain-specific keyword banks.
+
+Implement experience level detection patterns.
+
+Integrate DeepSeek API.
+
+Develop missing skills analysis.
+
+Finalize output formatting.
+
+Key Features
+✔ Multiple abstraction layers for modularity.
+
+✔ Hybrid approach (rule-based + ML) for robust extraction.
+
+✔ Domain-specific prioritization for relevance.
+
+✔ Context-aware scoring using TF-IDF and embeddings.
+
+✔ User profile integration for personalized gap analysis.
+
+✔ API extension capabilities for advanced analysis.
+
+
+
+
+
+
+Context:
+You are an AI assistant helping to develop a web application called STAGI. STAGI is designed to assist with internship applications by tailoring CVs using Large Language Models (LLMs) and Cache Augmented Generation (CAG). The app integrates with the DeepSeek API for keyword extraction from job descriptions and uses the Notion API to store submissions (e.g., job title, company, tailored CV). The app is built using Python, Streamlit, and LaTeX for CV generation.
+
+Current State of Development:
+
+The app.py script is the main entry point for the Streamlit app. It handles user input, displays results, and integrates with utility functions.
+
+A keyword_extraction.py utility script has been created to handle all keyword extraction and analysis tasks. It includes the following key functions:
+
+Text Processing Layer: preprocess_text, resolve_skill_synonyms.
+
+Core Extraction Layer: extract_technical_skills, extract_tools_technologies, extract_domains.
+
+Context Analysis Layer: detect_experience_level, identify_required_qualifications, calculate_keyword_relevance.
+
+Post-Processing Layer: rank_keywords, identify_missing_skills, format_keywords_output.
+
+Integration Layer: call_deepseek_api.
+
+The extract_keywords function orchestrates the entire keyword extraction pipeline, combining results from all steps into a structured dictionary.
+
+The app is designed to:
+
+Extract keywords and missing skills from job descriptions.
+
+Tailor CVs based on extracted keywords.
+
+Calculate the chances of acceptance.
+
+Save submissions to a Notion database.

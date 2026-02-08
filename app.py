@@ -1,6 +1,4 @@
-# Correct API endpoint (based on DeepSeek's documentation)
-DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"  # Updated endpoint
-DEEPSEEK_API_KEY = "sk-5229cbdfcb984c52b18447b202c464cf"
+
 
 import streamlit as st
 import os
